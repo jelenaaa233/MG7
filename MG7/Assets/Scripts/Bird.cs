@@ -25,7 +25,8 @@ public class Bird : MonoBehaviour
     //      coded! :)
     private void OnEnable()
     {
-        
+        _popUpTimeRemaining = _popUpTime;
+        _doPopUpAnimation = true;
     }
     // STEP 2 -----------------------------------------------------------------
 
@@ -37,6 +38,19 @@ public class Bird : MonoBehaviour
 
 
         // STEP 3 -------------------------------------------------------------
+        if (_doPopUpAnimation)
+        {
+            _popUpTimeRemaining -= Time.deltaTime;
+
+            if (_popUpTimeRemaining > 0f)
+            {
+                transform.Translate(Vector3.up * _popUpSpeed * Time.deltaTime, Space.World);
+            }
+            else
+            {
+                _doPopUpAnimation = false;
+            }
+        }
 
 
 
@@ -50,5 +64,9 @@ public class Bird : MonoBehaviour
 
 
         // STEP 6 -------------------------------------------------------------
+        if (_player != null && _player._isHoldingSeed)
+        {
+            transform.LookAt(_player.transform);
+        }
     }
 }
